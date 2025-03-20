@@ -1,11 +1,10 @@
 import { useState } from "react"
 
 
-
 function App() {
 
   const [name, setName] = useState("")
-  const [userName, setUserName] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [selectSpecialization, setSelectSpecialization] = useState("")
   const [yearsExperience, setYearsExperience] = useState("")
@@ -14,8 +13,20 @@ function App() {
   function submitForm(e) {
     e.preventDefault()
 
-    if (!name || !userName || !password || !selectSpecialization || !yearsExperience || !description) {
+    if (!name || !username || !password || !selectSpecialization || !yearsExperience || !description) {
       console.log("Inserisci TUTTI i dati")
+      return
+    }
+
+    const usernameRegex = /^[a-zA-Z0-9]{6,}$/
+    if (!usernameRegex.test(username)) {
+      console.log("Invalid Username")
+      return
+    }
+
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/
+    if (!passwordRegex.test(password)) {
+      console.log("Invalid Password")
       return
     }
 
@@ -25,14 +36,21 @@ function App() {
       return
     }
 
+    const descriptionTrim = description.trim()
+    if (descriptionTrim.length < 100 || descriptionTrim.length > 1000) {
+      console.log("Invalid Description")
+      return
+    }
+
 
     console.log(`
         Name: ${name}
-        Username: ${userName}
+        Username: ${username}
         Password: ${password}
         Specialization: ${selectSpecialization}
         Years of experience: ${yearsExperience}
-        Description: ${description}`)
+        Description: ${description}
+        `)
   }
 
 
@@ -45,7 +63,7 @@ function App() {
         </div>
         <div className="form-control">
           <label htmlFor="username">Username</label>
-          <input id="username" type="text" value={userName} onChange={e => setUserName(e.target.value)} />
+          <input id="username" type="text" value={username} onChange={e => setUsername(e.target.value)} />
         </div>
         <div className="form-control">
           <label htmlFor="password">Password</label>
