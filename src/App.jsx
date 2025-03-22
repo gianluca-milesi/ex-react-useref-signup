@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useRef } from "react"
 
 const letters = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "0123456789";
@@ -7,11 +7,11 @@ const symbols = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~";
 
 function App() {
 
-  const [name, setName] = useState("")
+  const nameRef = useRef()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [selectSpecialization, setSelectSpecialization] = useState("")
-  const [yearsExperience, setYearsExperience] = useState("")
+  const specializationRef = useRef()
+  const yearsExperienceRef = useRef()
   const [description, setDescription] = useState("")
 
   const isUsernameValid = useMemo(() => {
@@ -30,27 +30,33 @@ function App() {
     return description.trim().length >= 100 && description.trim().length <= 1000
   }, [description])
 
-
-
   function submitForm(e) {
     e.preventDefault()
+
+    const name = nameRef.current.value
+    const specialization = specializationRef.current.value
+    const yearsExperience = yearsExperienceRef.current.value
 
     if (
       !name.trim() ||
       !username.trim() ||
       !password.trim() ||
-      !selectSpecialization.trim() ||
+      !specialization.trim() ||
       !yearsExperience.trim() ||
       yearsExperience <= 0 ||
-      !description.trim()
+      !description.trim() ||
+      !isUsernameValid ||
+      !isPasswordValid ||
+      !isDescriptionValid
     ) {
       console.log("Compilare TUTTI i campi correttamente")
+      alert("Compilare TUTTI i campi correttamente")
     } else {
       console.log("Dati inviati:", {
         name,
         username,
         password,
-        selectSpecialization,
+        specialization,
         yearsExperience,
         description,
       })
@@ -64,7 +70,7 @@ function App() {
         <form onSubmit={submitForm}>
           <div className="form-control">
             <label htmlFor="name">Nome completo</label>
-            <input id="name" type="text" value={name} onChange={e => setName(e.target.value)} />
+            <input id="name" type="text" ref={nameRef} />
           </div>
           <div className="form-control">
             <label htmlFor="username">Username</label>
@@ -78,7 +84,7 @@ function App() {
           </div>
           <div className="form-control">
             <label htmlFor="specialization">Specializzazione</label>
-            <select id="specialization" value={selectSpecialization} onChange={e => setSelectSpecialization(e.target.value)}>
+            <select id="specialization" ref={specializationRef}>
               <option value="">-</option>
               <option value="fullstack">Full Stack</option>
               <option value="frontend">Frontend</option>
@@ -87,7 +93,7 @@ function App() {
           </div>
           <div className="form-control">
             <label htmlFor="years-experience">Anni di esperienza</label>
-            <input id="years-experience" type="number" value={yearsExperience} onChange={e => { setYearsExperience(e.target.value) }} />
+            <input id="years-experience" type="number" ref={yearsExperienceRef} />
           </div>
           <div className="form-control">
             <label htmlFor="description">Breve descrizione</label>
