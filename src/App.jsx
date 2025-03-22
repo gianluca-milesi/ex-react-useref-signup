@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react"
+import { useState, useMemo, useRef, useEffect } from "react"
 
 const letters = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "0123456789";
@@ -63,48 +63,73 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    nameRef.current.focus()
+  }, [])
+
+  function resetForm(e) {
+    e.preventDefault()
+
+    nameRef.current.value = ""
+    setUsername("")
+    setPassword("")
+    specializationRef.current.value = ""
+    yearsExperienceRef.current.value = ""
+    setDescription("")
+
+    nameRef.current.focus()
+  }
+
 
   return (
-    <main>
-      <div className="container">
-        <form onSubmit={submitForm}>
-          <div className="form-control">
-            <label htmlFor="name">Nome completo</label>
-            <input id="name" type="text" ref={nameRef} />
-          </div>
-          <div className="form-control">
-            <label htmlFor="username">Username</label>
-            <input id="username" type="text" value={username} onChange={e => { setUsername(e.target.value) }} />
-            {username.trim() && (<p style={{ color: isUsernameValid ? "green" : "red" }}>{isUsernameValid ? "Username valido" : "Almeno 6 Caratteri alfanumerici."}</p>)}
-          </div>
-          <div className="form-control">
-            <label htmlFor="password">Password</label>
-            <input id="password" type="password" value={password} onChange={e => { setPassword(e.target.value) }} />
-            {password.trim() && (<p style={{ color: isPasswordValid ? "green" : "red" }}>{isPasswordValid ? "Password valida" : "Almeno 8 Caratteri, 1 lettera, 1 numero, 1 simbolo."}</p>)}
-          </div>
-          <div className="form-control">
-            <label htmlFor="specialization">Specializzazione</label>
-            <select id="specialization" ref={specializationRef}>
-              <option value="">-</option>
-              <option value="fullstack">Full Stack</option>
-              <option value="frontend">Frontend</option>
-              <option value="backend">Backend</option>
-            </select>
-          </div>
-          <div className="form-control">
-            <label htmlFor="years-experience">Anni di esperienza</label>
-            <input id="years-experience" type="number" ref={yearsExperienceRef} />
-          </div>
-          <div className="form-control">
-            <label htmlFor="description">Breve descrizione</label>
-            <textarea id="description" value={description} onChange={e => { setDescription(e.target.value) }} />
-            {description.trim() && (<p style={{ color: isDescriptionValid ? "green" : "red" }}>{isDescriptionValid ? "Descrizione valida" : `Tra 100 e 1000 caratteri", (${description.length})`}</p>)}
-          </div>
-          <button type="submit">Invio</button>
-        </form>
-      </div>
+    <>
+      <main>
+        <div className="container">
+          <form onSubmit={submitForm}>
+            <div className="form-control">
+              <label htmlFor="name">Nome completo</label>
+              <input id="name" type="text" ref={nameRef} />
+            </div>
+            <div className="form-control">
+              <label htmlFor="username">Username</label>
+              <input id="username" type="text" value={username} onChange={e => { setUsername(e.target.value) }} />
+              {username.trim() && (<p style={{ color: isUsernameValid ? "green" : "red" }}>{isUsernameValid ? "Username valido" : "Almeno 6 Caratteri alfanumerici."}</p>)}
+            </div>
+            <div className="form-control">
+              <label htmlFor="password">Password</label>
+              <input id="password" type="password" value={password} onChange={e => { setPassword(e.target.value) }} />
+              {password.trim() && (<p style={{ color: isPasswordValid ? "green" : "red" }}>{isPasswordValid ? "Password valida" : "Almeno 8 Caratteri, 1 lettera, 1 numero, 1 simbolo."}</p>)}
+            </div>
+            <div className="form-control">
+              <label htmlFor="specialization">Specializzazione</label>
+              <select id="specialization" ref={specializationRef}>
+                <option value="">-</option>
+                <option value="fullstack">Full Stack</option>
+                <option value="frontend">Frontend</option>
+                <option value="backend">Backend</option>
+              </select>
+            </div>
+            <div className="form-control">
+              <label htmlFor="years-experience">Anni di esperienza</label>
+              <input id="years-experience" type="number" ref={yearsExperienceRef} />
+            </div>
+            <div className="form-control">
+              <label htmlFor="description">Breve descrizione</label>
+              <textarea id="description" value={description} onChange={e => { setDescription(e.target.value) }} />
+              {description.trim() && (<p style={{ color: isDescriptionValid ? "green" : "red" }}>{isDescriptionValid ? "Descrizione valida" : `Tra 100 e 1000 caratteri", (${description.length})`}</p>)}
+            </div>
+            <button type="submit">Invio</button>
+            <button onClick={resetForm}>Reset</button>
+          </form>
+        </div>
 
-    </main>
+      </main>
+
+      <footer style={{ height: "100vh" }}></footer>
+      <button className="btn-scroll-top" onClick={() => {
+        nameRef.current.scrollIntoView({ behavior: "smooth" })
+      }}>Torna su</button>
+    </>
   )
 }
 
