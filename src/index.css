@@ -5,10 +5,6 @@
     box-sizing: border-box;
 }
 
-main {
-    padding: 2rem;
-}
-
 ul,
 ol {
     list-style: none;
@@ -22,4 +18,46 @@ a {
 
 img {
     max-width: 100%;
+}
+
+
+/* LAYOUT */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 350px;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+}
+
+.form-control input,
+.form-control select,
+.form-control textarea {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+button {
+    align-self: center;
+    padding: 0.25rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
 }
